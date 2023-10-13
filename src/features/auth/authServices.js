@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { config } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 const login = async (user) => {
   const response = await axios.post(`${base_url}user/login`, user);
