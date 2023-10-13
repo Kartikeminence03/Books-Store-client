@@ -10,6 +10,7 @@ const initialState = {
   isError: false,
   isLoading: false,
   isSuccess: false,
+  isLoggedIn: false,
   message: "",
 };
 export const login = createAsyncThunk(
@@ -47,6 +48,7 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
+        state.isLoggedIn= true;
         state.user = action.payload;
         state.message = "success";
       })
@@ -73,3 +75,5 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+
+export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
