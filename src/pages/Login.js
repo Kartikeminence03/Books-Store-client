@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomInput from '../components/CustomInput';
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/auth/authSlice";
+import { BsEye, BsEyeSlash } from 'react-icons/bs'
 
 let schema = yup.object().shape({
   email: yup
@@ -14,9 +15,13 @@ let schema = yup.object().shape({
   password: yup.string().required("Password is Required"),
 });
 
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);
+
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -63,19 +68,33 @@ const Login = () => {
           <div className="error mt-2">
             {formik.touched.email && formik.errors.email}
           </div>
-          <CustomInput
-            type="password"
-            label="Password"
+          <input
+            type={visible?"text":"password"}
+            placeholder="Password"
             id="pass"
+            className={`form-control`}
             name="password"
-            onChng={formik.handleChange("password")}
-            onBlr={formik.handleBlur("password")}
-            val={formik.values.password}
+            onChange={formik.handleChange("password")}
+            onBlur={formik.handleBlur("password")}
+            value={formik.values.password}
           />
+          {visible?(
+            <BsEye
+            size={25}
+            onClick={()=>setVisible(false)}
+            />
+            ):(<BsEyeSlash
+              size={25}
+            onClick={()=> setVisible(true)}
+          />)}
           <div className="error mt-2">
             {formik.touched.password && formik.errors.password}
           </div>
           <div className="mb-3 text-end">
+          <Link to="/signup" className="btn-2">
+              SignUp
+            </Link>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             <Link to="forgot-password" className="">
               Forgot Password?
             </Link>
@@ -85,7 +104,7 @@ const Login = () => {
             style={{ background: "#ffd333" }}
             type="submit"
           >
-            Login
+            {isLoading=== true? "Loading...":"Login"}
           </button>
         </form>
       </div>

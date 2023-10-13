@@ -8,8 +8,14 @@ const login = async (user) => {
   return response.data;
 };
 
+const register = async (user) => {
+  const response = await axios.post(`${base_url}user/register`, user);
+  return response.data;
+};
+
 const authService = {
   login,
+  register,
 };
 
 export default authService;

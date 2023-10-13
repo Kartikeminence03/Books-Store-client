@@ -1,48 +1,62 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import * as yup from 'yup'
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { base_url } from '../utils/baseUrl';
+import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../features/auth/authSlice';
+import CustomInput from '../components/CustomInput';
+import { BsEye, BsEyeSlash } from 'react-icons/bs'
 
-const initialState = {
-  firstname: '',
-  lastname: '',
-  email: '',
-  mobile:'',
-  password: '',
-};
+let schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Email should be valid")
+    .required("Email is Required"),
+    firstname: yup
+  .string()
+  .required("Name is Required"),
+  lastname: yup
+  .string()
+  .required("Last name is Required"),
+  mobile: yup
+  .string()
+  .required("Mobile number is Required"),
+  password: yup.string().min(4).max(8).required("Password is Required"),
+});
+
 
 const Signup = () => {
-  const [state, setState] = useState(initialState);
-
-  const { firstname, lastname, email, mobile, password } = state;
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);
 
-  const addUser = async (data)=>{
-    const response = await axios.post(`${base_url}user/register`, data);
-    if(response.status === 200){
-      toast.success(response.data)
+  const formik = useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      mobile: "",
+      password: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      dispatch(register(values));
+    },
+  });
+
+  const authState = useSelector((state) => state);
+
+  const { user, isError, isSuccess, isLoading, message } = authState.auth;
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/");
+      toast.success("User created success")
+    } else {
+      navigate("");
     }
-  }
-
-  const handleChange = (e) => {
-    let {name, value} = e.target;
-    setState({...state, [name]:value,})
-  };
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if(!firstname ||!email ){
-      toast.error("Please provide value into each field")
-      navigate("")
-    } else{
-      addUser(state)
-      navigate("/")
-      toast.success("User register")
-    }
-    };
+  }, [user, isError, isSuccess, isLoading]);
 
   return (
     <div className="py-5" style={{ background: "#ffd333", minHeight: "80vh" }}>
@@ -50,67 +64,91 @@ const Signup = () => {
         <h3 className="text-center title">SignUp</h3>
         <p className="text-center">Create your account.</p>
         <div className="error text-center">
-          {/* {message.message == "Rejected" ? "You are not an Admin" : ""} */}
         </div>
         <form action="" 
-        onSubmit={handleSubmit}
+        onSubmit={formik.handleSubmit}
         >
-          <input
+          <CustomInput
             type="text"
+            label="First Name"
+            id="firstname"
             name="firstname"
-            placeholder="First Name"
-            value={firstname}
-            className={`form-control mt-2`}
-            onChange={handleChange}
+            onChng={formik.handleChange("firstname")}
+            onBlr={formik.handleChange("firstname")}
+            val={formik.values.firstname}
           />
-          <input
+          <div className="error mt-2">
+            {formik.touched.firstname && formik.errors.firstname}
+          </div>
+          <CustomInput
             type="text"
+            label="Last Name"
+            id="lastname"
             name="lastname"
-            placeholder="Last Name"
-            value={lastname}
-            className={`form-control mt-2`}
-            onChange={handleChange}
+            onChng={formik.handleChange("lastname")}
+            onBlr={formik.handleChange("lastname")}
+            val={formik.values.lastname}
           />
-          <input
+          <div className="error mt-2">
+            {formik.touched.lastname && formik.errors.lastname}
+          </div>
+          <CustomInput
             type="text"
             label="Email Address"
             id="email"
             name="email"
-            className={`form-control mt-2`}
-            placeholder='Email Address'
-            onChange={handleChange}
-            value={email}
-          />
-          <input
-            type="text"
-            name="mobile"
-            placeholder="Mobile No."
-            className={`form-control mt-2`}
-            value={mobile}
-            onChange={handleChange}
+            onChng={formik.handleChange("email")}
+            onBlr={formik.handleBlur("email")}
+            val={formik.values.email}
           />
           <div className="error mt-2">
-            {/* {formik.touched.email && formik.errors.email} */}
+            {formik.touched.email && formik.errors.email}
+          </div>
+          <CustomInput
+            type="text"
+            label="Mobile Number"
+            id="mobile"
+            name="mobile"
+            onChng={formik.handleChange("mobile")}
+            onBlr={formik.handleBlur("mobile")}
+            val={formik.values.mobile}
+          />
+          <div className="error mt-2">
+            {formik.touched.mobile && formik.errors.mobile}
           </div>
           <input
-            type="password"
-            label="Password"
-            id="pass"
-            name="password"
+            type={visible?"text":"password"}
             placeholder="Password"
-            value={password}
-            className={`form-control `}
-            onChange={handleChange}
+            id="pass"
+            className={`form-control`}
+            name="password"
+            onChange={formik.handleChange("password")}
+            onBlur={formik.handleBlur("password")}
+            value={formik.values.password}
           />
+          {visible?(
+            <BsEye
+            size={25}
+            onClick={()=>setVisible(false)}
+            />
+            ):(<BsEyeSlash
+              size={25}
+            onClick={()=> setVisible(true)}
+          />)}
           <div className="error mt-2">
-            {/* {formik.touched.password && formik.errors.password} */}
+            {formik.touched.password && formik.errors.password}
+          </div>
+          <div className="mb-3 text-end">
+            <Link to="/" className="btn-2">
+              Login
+            </Link>
           </div>
           <button
             className="border-0 px-3 py-2 text-white fw-bold w-100 text-center text-decoration-none fs-5"
             style={{ background: "#ffd333" }}
             type="submit"
           >
-            SignUp
+            {isLoading===true? "Loading...":"SignUp"}
           </button>
         </form>
       </div>
