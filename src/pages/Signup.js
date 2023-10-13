@@ -47,7 +47,7 @@ const Signup = () => {
 
   const authState = useSelector((state) => state);
 
-  const { user, isError, isSuccess, isLoading, message } = authState.auth;
+  const { user, isError, isSuccess, isLoading } = authState.auth;
 
   useEffect(() => {
     if (isSuccess) {
