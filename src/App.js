@@ -12,9 +12,11 @@ function App() {
       <div className='App'>
         <ToastContainer position='top-center'/>
         <Routes>
-          <Route path='/' element={<Home/>}/>
+          <Route path='/' element={<Login/>}/>
+          <Route path='/home'>
+            <Route index element={<Home/>}/>
+          </Route>
           <Route path='/signup' element={<Signup/>}/>
-          <Route path='/login' element={<Login/>}/>
         </Routes>
       </div>
     </BrowserRouter>

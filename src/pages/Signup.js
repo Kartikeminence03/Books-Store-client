@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { base_url } from '../utils/baseUrl';
@@ -31,21 +31,18 @@ const Signup = () => {
     setState({...state, [name]:value,})
   };
 
-  // useEffect(()=>{
-  //   handleSubmit()
-  // },[state])
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!firstname ||!email ){
       toast.error("Please provide value into each field")
+      navigate("")
     } else{
       addUser(state)
-      // navigate("/login")
+      navigate("/")
+      toast.success("User register")
     }
     };
-
-    console.log(state)
 
   return (
     <div className="py-5" style={{ background: "#ffd333", minHeight: "80vh" }}>
@@ -63,6 +60,7 @@ const Signup = () => {
             name="firstname"
             placeholder="First Name"
             value={firstname}
+            className={`form-control mt-2`}
             onChange={handleChange}
           />
           <input
@@ -70,6 +68,7 @@ const Signup = () => {
             name="lastname"
             placeholder="Last Name"
             value={lastname}
+            className={`form-control mt-2`}
             onChange={handleChange}
           />
           <input
@@ -77,13 +76,16 @@ const Signup = () => {
             label="Email Address"
             id="email"
             name="email"
+            className={`form-control mt-2`}
+            placeholder='Email Address'
             onChange={handleChange}
             value={email}
           />
           <input
-            type="number"
+            type="text"
             name="mobile"
             placeholder="Mobile No."
+            className={`form-control mt-2`}
             value={mobile}
             onChange={handleChange}
           />
@@ -95,7 +97,9 @@ const Signup = () => {
             label="Password"
             id="pass"
             name="password"
+            placeholder="Password"
             value={password}
+            className={`form-control `}
             onChange={handleChange}
           />
           <div className="error mt-2">
@@ -106,7 +110,7 @@ const Signup = () => {
             style={{ background: "#ffd333" }}
             type="submit"
           >
-            Login
+            SignUp
           </button>
         </form>
       </div>

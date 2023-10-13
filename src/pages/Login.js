@@ -34,7 +34,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("/");
+      navigate("/home");
     } else {
       navigate("");
     }
