@@ -7,20 +7,17 @@ const Header = () => {
     <div className="navbar">
       <div className="logo">Your Logo</div>
       <ul className="nav-links">
-        <li>
-          <ShowOnLogin>
-          <Link to="/">Home</Link>
-          </ShowOnLogin>
-          {/* <Link to="/">Home</Link> */}
-      </li>
-        <li><Link to="/about">About</Link></li>
+      <ShowOnLogin>
+        <li><Link to="/">Home</Link> </li>
         <li><Link to="/services">Services</Link></li>
         <li><Link to="/contact">Contact</Link></li>
+      </ShowOnLogin>
+        <li><Link to="/about">About</Link></li>
         <li>
           <ShowOnLogout>
           <Link to="/signup">Signup</Link>
+          <Link to='/'>Login</Link>
           </ShowOnLogout>
-          {/* <Link to="/signup">Signup</Link> */}
         </li>
       </ul>
     </div>

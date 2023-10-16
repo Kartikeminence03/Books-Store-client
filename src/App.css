@@ -37,6 +37,18 @@
   }
 }
 
+
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .navbar {
   background-color: #7300b6;
   color: #fff;

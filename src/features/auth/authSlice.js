@@ -6,7 +6,6 @@ const getUserfromLocalStorage = localStorage.getItem("user")
   : null;
 const initialState = {
   user: getUserfromLocalStorage,
-  orders: [],
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -55,6 +54,7 @@ export const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
+        state.isLoggedIn= false;
         state.message = action.error;
         state.isLoading = false;
       })

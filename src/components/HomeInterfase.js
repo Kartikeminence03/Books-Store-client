@@ -4,7 +4,9 @@ import './Interfase.css'
 const HomeInterfase = () => {
   return (
     <>
-    <section id='hero'></section>
+    <section id='hero'>
+      <h1>Eminence Books Store</h1>
+    </section>
     </>
   )
 }
