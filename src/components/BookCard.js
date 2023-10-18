@@ -11,6 +11,12 @@ const BookCard = ({data}) => {
           {data.description}
         </p>
       </div>
+      <div className="blog-content">
+        <p className="blog-label">₹ {data.price}</p>
+      </div>
+      <div>
+        <button>Bay</button>
+      </div>
     </section>
   )
 }
