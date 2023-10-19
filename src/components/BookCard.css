@@ -52,6 +52,10 @@
     border-radius: 15px;
     padding: 0 1rem;
   }
+
+  .wish{
+    left: 20%;
+  }
   
   @media (min-width: 48rem) {
     .blog-card {

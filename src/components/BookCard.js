@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
+import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import './BookCard.css'
 
 const BookCard = ({data}) => {
-// console.log(data,'=======>>>>>>>>>>>>>>>>>>');
+  const [wishlist, setWishlist] = useState(false)
   return (
     <section className="blog-card" key={data._id}>
+      {wishlist=== true?(
+        <AiFillHeart className='wish wishlist-true'/>
+      ) : (
+        <AiOutlineHeart className='wish'/>
+      )}
+      
       <div className="blog-content">
         <h1>{data.title}</h1>
         <p>
