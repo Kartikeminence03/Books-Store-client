@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
 import {FaOpencart} from 'react-icons/fa'
+import ShowOnLogin from "./hiddenLink/hiddenLink";
 // import ShowOnLogin, { ShowOnLogout } from "./hiddenLink/hiddenLink";
 
 const Header = () => {
@@ -11,9 +12,11 @@ const Header = () => {
   <div className="logo text-white text-2xl font-bold">ET BS</div>
   <ul className="nav-links flex space-x-4">
     <li>
+      <ShowOnLogin>
       <Link to="/home" className="text-white hover:text-red-600">
         Home
       </Link>
+      </ShowOnLogin>
     </li>
     <li>
       <Link to="/addtocart" className="text-white hover:text-red-600">

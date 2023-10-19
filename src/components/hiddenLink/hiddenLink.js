@@ -2,9 +2,12 @@ import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from '../../features/auth/authSlice'
 
 const ShowOnLogin = ({children}) => {
-    const isLoggedIn = useSelector(selectIsLoggedIn)
+    // const isLoggedIn = useSelector(selectIsLoggedIn)
 
-    if(isLoggedIn){
+    const data = localStorage.getItem('user')
+    // console.log(data,"==========............>>>>>>>>>>");
+
+    if(data){
         return children
     }
     return null
