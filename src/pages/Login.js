@@ -46,68 +46,63 @@ const Login = () => {
   }, [user, isError, isSuccess, isLoading]);
 
   return (
-    <div className="py-5" style={{ background: "#ffd333", minHeight: "100vh" }}>
-      <div className="my-5 w-25 bg-white rounded-3 mx-auto p-4">
-        <h3 className="text-center title">Login</h3>
-        <p className="text-center">Login to your account to continue.</p>
-        <div className="error text-center">
-        </div>
-        <form action="" 
-        onSubmit={formik.handleSubmit}
+    <div className="bg-yellow-300 min-h-screen flex flex-col justify-center items-center">
+  <div className="bg-white w-full md:w-1/3 lg:w-1/4 rounded-lg p-4">
+    <h3 className="text-2xl font-semibold text-center mb-4">Login</h3>
+    <p className="text-center text-gray-700 mb-4">Login to your account to continue.</p>
+    <div className="error text-red-500 mb-4"></div>
+    <form onSubmit={formik.handleSubmit}>
+      <CustomInput
+        type="text"
+        label="Email Address"
+        id="email"
+        name="email"
+        onChng={formik.handleChange("email")}
+        onBlr={formik.handleBlur("email")}
+        val={formik.values.email}
+      />
+      {formik.touched.email && formik.errors.email && (
+        <div className="error text-red-500">{formik.errors.email}</div>
+      )}
+      <div className="relative">
+        <input
+          type={visible ? "text" : "password"}
+          placeholder="Password"
+          id="pass"
+          className="form-control pr-10"
+          name="password"
+          onChange={formik.handleChange("password")}
+          onBlur={formik.handleBlur("password")}
+          value={formik.values.password}
+        />
+        <button
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-600"
+          onClick={() => setVisible(!visible)}
         >
-          <CustomInput
-            type="text"
-            label="Email Address"
-            id="email"
-            name="email"
-            onChng={formik.handleChange("email")}
-            onBlr={formik.handleBlur("email")}
-            val={formik.values.email}
-          />
-          <div className="error mt-2">
-            {formik.touched.email && formik.errors.email}
-          </div>
-          <input
-            type={visible?"text":"password"}
-            placeholder="Password"
-            id="pass"
-            className={`form-control`}
-            name="password"
-            onChange={formik.handleChange("password")}
-            onBlur={formik.handleBlur("password")}
-            value={formik.values.password}
-          />
-          {visible?(
-            <BsEye
-            size={25}
-            onClick={()=>setVisible(false)}
-            />
-            ):(<BsEyeSlash
-              size={25}
-            onClick={()=> setVisible(true)}
-          />)}
-          <div className="error mt-2">
-            {formik.touched.password && formik.errors.password}
-          </div>
-          <div className="mb-3 text-end">
-          <Link to="/signup" className="btn-2">
-              SignUp
-            </Link>
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            <Link to="forgot-password" className="">
-              Forgot Password?
-            </Link>
-          </div>
-          <button
-            className="border-0 px-3 py-2 text-white fw-bold w-100 text-center text-decoration-none fs-5"
-            style={{ background: "#ffd333" }}
-            type="submit"
-          >
-            {isLoading=== true? "Loading...":"Login"}
-          </button>
-        </form>
+          {visible ? <BsEye size={25} /> : <BsEyeSlash size={25} />}
+        </button>
       </div>
-    </div>
+      {formik.touched.password && formik.errors.password && (
+        <div className="error text-red-500">{formik.errors.password}</div>
+      )}
+      <div className="mt-4 text-right">
+        <Link to="/signup" className="text-blue-600 hover:underline mr-4">
+          Sign Up
+        </Link>
+        <Link to="/forgot-password" className="text-blue-600 hover:underline">
+          Forgot Password?
+        </Link>
+      </div>
+      <button
+        className="bg-yellow-300 py-3 text-white font-semibold w-full mt-4 rounded-full hover:bg-yellow-400"
+        type="submit"
+        disabled={isLoading}
+      >
+        {isLoading ? "Loading..." : "Login"}
+      </button>
+    </form>
+  </div>
+</div>
   );
 };
 

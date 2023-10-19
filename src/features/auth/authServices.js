@@ -1,5 +1,12 @@
 import axios from "axios";
 import { base_url } from "../../utils/baseUrl";
+
+const data = JSON.parse(localStorage.getItem("user")) || "";
+const config = {
+  headers: {
+    Authorization: `Bearer ${data?.token}`,
+  },
+};
 const login = async (user) => {
   const response = await axios.post(`${base_url}user/login`, user);
   if (response.data) {

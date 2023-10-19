@@ -4,8 +4,8 @@ import './Interfase.css'
 const HomeInterfase = () => {
   return (
     <>
-    <section id='hero'>
-      <h1>Eminence Books Store</h1>
+    <section id='hero' className="bg-red-700 text-white py-10 text-center">
+      <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-5xl font-bold">Eminence Books Store</h1>
     </section>
     </>
   )

@@ -4,9 +4,12 @@ import './Home.css'
 import HomeInterfase from '../components/HomeInterfase'
 import BookCard from '../components/BookCard'
 import { base_url } from '../utils/baseUrl'
+import Heading from '../components/Heading'
+import { json, useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const [productData, setProductData] = useState([])
+  const navigate = useNavigate();
   const getallProduct = async()=>{
     const response = await axios.get(`${base_url}product/`);
     const data =await response.data
@@ -15,16 +18,28 @@ const Home = () => {
   }
 
   useEffect(()=>{
+    const data = localStorage.getItem('user');
+    const objData = JSON.parse(data)
+    const token = objData?.token;
+    console.log('=====>>>>>>>>>>');
+    if(!token===true){
+      navigate('/')
+    } else{
+      navigate('')
+    }
     getallProduct()
   },[])
   return (
     <div className="home">
       <HomeInterfase/>
+      <div>
+        <Heading heading='Product'/>
+      </div>
       <div className="book-list">
         {productData?.map((ele,index)=>{
           // console.log(index,ele);
           return(
-              <BookCard data={ele}/>
+              <BookCard data={ele} key={index}/>
           )
         })}
       </div>
