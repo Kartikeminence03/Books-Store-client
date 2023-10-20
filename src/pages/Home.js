@@ -11,6 +11,7 @@ import ShowOnLogin from '../components/hiddenLink/hiddenLink'
 const Home = () => {
   const [productData, setProductData] = useState([])
   const navigate = useNavigate();
+
   const getallProduct = async()=>{
     const response = await axios.get(`${base_url}product/`);
     const data =await response.data
@@ -23,9 +24,9 @@ const Home = () => {
     const objData = JSON.parse(data)
     const token = objData?.token;
     if(!token===true){
-      navigate('/')
+      navigate('/login')
     } else{
-      navigate('')
+      navigate('/')
     }
     getallProduct()
   },[])
@@ -35,12 +36,14 @@ const Home = () => {
       <div>
         <Heading heading='Product'/>
       </div>
-      <ShowOnLogin/>
+      {/* <ShowOnLogin/> */}
       <div className="book-list">
         {productData?.map((ele,index)=>{
           // console.log(index,ele);
           return(
-              <BookCard data={ele} key={index}/>
+              <div key={index} className="bg-white shadow-lg rounded-lg p-6 m-4">
+                <BookCard data={ele}/>
+              </div>
           )
         })}
       </div>

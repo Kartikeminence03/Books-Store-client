@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
-import {FaOpencart} from 'react-icons/fa'
+import {FiShoppingCart} from 'react-icons/fi'
 import ShowOnLogin from "./hiddenLink/hiddenLink";
 // import ShowOnLogin, { ShowOnLogout } from "./hiddenLink/hiddenLink";
 
@@ -13,28 +13,36 @@ const Header = () => {
   <ul className="nav-links flex space-x-4">
     <li>
       <ShowOnLogin>
-      <Link to="/home" className="text-white hover:text-red-600">
+      <Link to="/" className="text-white hover:text-red-600">
         Home
       </Link>
       </ShowOnLogin>
     </li>
     <li>
-      <Link to="/addtocart" className="text-white hover:text-red-600">
-        <FaOpencart className="text-3xl" />
-      </Link>
+      <ShowOnLogin>
+        <Link to="/addtocart" className="text-white hover:text-red-600">
+          <FiShoppingCart className="text-3xl" />
+        </Link>
+      </ShowOnLogin>
     </li>
-    <li className="relative">
-      <AiOutlineUser className="text-xl text-white hover:text-red-600" />
-      {dropdownButton && (
-        <div className="absolute right-2 p-2 w-20 bg-white border rounded shadow-lg" style={{ zIndex: 100 }}>
-          <ul>
-            <li>
-              <button className="text-black">Logout</button>
-            </li>
-          </ul>
-        </div>
-      )}
-    </li>
+    <ShowOnLogin>
+      <li className="relative"
+      onMouseEnter={() => setDropdownButton(true)}
+      onMouseLeave={() => setDropdownButton(false)} 
+      >
+        <AiOutlineUser className="text-xl text-white hover:text-red-600" />
+        {dropdownButton && (
+          <div className="absolute right-2 p-2 w-20 bg-white border rounded shadow-lg" 
+          style={{ zIndex: 100 }}>
+            <ul>
+              <li>
+                <button className="text-black">Logout</button>
+              </li>
+            </ul>
+          </div>
+        )}
+      </li>
+    </ShowOnLogin>
   </ul>
 </div>
   );

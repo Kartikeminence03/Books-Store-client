@@ -39,9 +39,9 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("/home");
+      navigate("/");
     } else {
-      navigate("");
+      navigate("/login");
     }
   }, [user, isError, isSuccess, isLoading]);
 
@@ -88,9 +88,6 @@ const Login = () => {
       <div className="mt-4 text-right">
         <Link to="/signup" className="text-blue-600 hover:underline mr-4">
           Sign Up
-        </Link>
-        <Link to="/forgot-password" className="text-blue-600 hover:underline">
-          Forgot Password?
         </Link>
       </div>
       <button

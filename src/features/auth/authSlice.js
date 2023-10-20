@@ -11,6 +11,7 @@ const initialState = {
   isSuccess: false,
   isLoggedIn: false,
   message: "",
+  cart: []
 };
 export const login = createAsyncThunk(
   "auth/login",
@@ -33,6 +34,17 @@ export const register = createAsyncThunk(
     }
   }
 );
+
+export const addToCart = createAsyncThunk(
+  "auth/cart",
+  async(cartData, thunkAPI) =>{
+    try {
+      return await authService.register(cartData)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
 
 export const authSlice = createSlice({
   name: "auth",
@@ -66,6 +78,22 @@ export const authSlice = createSlice({
         state.message = "success";
       })
       .addCase(register.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      .addCase(addToCart.pending, (state)=>{
+        state.isLoading = true;
+      })
+      .addCase(addToCart.fulfilled,(state,action)=>{
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.cart = [...state.cart, action.payload?.product];
+        state.message = "success";
+      })
+      .addCase(addToCart.rejected,(state,action)=>{
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
