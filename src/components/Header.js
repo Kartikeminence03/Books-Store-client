@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
 import {FiShoppingCart} from 'react-icons/fi'
 import ShowOnLogin from "./hiddenLink/hiddenLink";
@@ -7,6 +7,7 @@ import ShowOnLogin from "./hiddenLink/hiddenLink";
 
 const Header = () => {
   const [dropdownButton, setDropdownButton] = useState(false);
+  const navigate = useNavigate();
   return (
     <div className="navbar bg-red-500 p-4">
   <div className="logo text-white text-2xl font-bold">ET BS</div>
@@ -37,6 +38,7 @@ const Header = () => {
             <ul>
               <li>
                 <button className="text-black">Logout</button>
+                <button className="text-black" onClick={()=>navigate('/order')}>Order</button>
               </li>
             </ul>
           </div>

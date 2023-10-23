@@ -16,7 +16,6 @@ const Home = () => {
     const response = await axios.get(`${base_url}product/`);
     const data =await response.data
     setProductData(data);
-    // console.log(data);
   }
 
   useEffect(()=>{

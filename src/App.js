@@ -8,7 +8,7 @@ import Home from './pages/Home';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Cart from './pages/Cart';
-import { ShowOnLogout } from './components/hiddenLink/hiddenLink';
+import Order from './pages/Order';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/addtocart' element={<Cart/>}/>
           <Route path='/signup' element={<Signup/>}/>
+          <Route path='/order' element={<Order/>}/>
         </Routes>
         <Footer/>
       </div>

@@ -21,8 +21,13 @@ const register = async (user) => {
 };
 
 const addToCart = async(user)=>{
-  const response = await axios.post(`${base_url}user/cart`, user, config)
-  console.log(response.data);
+  try {
+    // const config = getAuthorizationConfig();
+    const response = await axios.post(`${base_url}user/cart`, user, config)
+    return response.data;
+  } catch (error) {
+    return error
+  }
 }
 
 const authService = {
