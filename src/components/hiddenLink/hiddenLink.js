@@ -1,9 +1,6 @@
-import { useSelector } from 'react-redux'
-import { selectIsLoggedIn } from '../../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const ShowOnLogin = ({children}) => {
-    // const isLoggedIn = useSelector(selectIsLoggedIn)
 
     const data = localStorage.getItem('user')
     // console.log(data,"==========............>>>>>>>>>>");
@@ -15,7 +12,6 @@ const ShowOnLogin = ({children}) => {
 }
 
 export const ShowOnLogout = ({children}) => {
-    // const isLoggedIn = useSelector(selectIsLoggedIn)
     const navigate = useNavigate();
 
     const data = localStorage.getItem('user')

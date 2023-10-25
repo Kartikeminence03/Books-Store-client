@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../features/auth/authSlice';
+import { register } from '../features/auth/authServices';
 import CustomInput from '../components/CustomInput';
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 

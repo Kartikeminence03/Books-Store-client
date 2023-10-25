@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { base_url } from '../utils/baseUrl';
 import getAuthorConfig from '../UserToken';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate}  from 'react-router-dom'
 import { buyProduct } from '../features/order/orderservices';
 import { toast } from 'react-toastify';
@@ -11,6 +11,12 @@ const CartSection = () => {
     const [cartData, setCartData] =  useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { cart } = useSelector((state) => state?.auth);
+
+    console.log(cart);
+
+
     const getallCart = async()=>{
         const config = getAuthorConfig()
         const response = await axios.get(`${base_url}user/cart`,config)
@@ -45,17 +51,8 @@ const CartSection = () => {
     </thead>
     <tbody>
       {/* <!-- Product Row 1 --> */}
-        {cartData.map((cart,index)=>{
-            return cart.products.map((product,  index) => {
-                return <>
-                    <tr key={index}>
-                        <td className="border p-2">{product.product.title}</td>
-                        <td className="border p-4">{product.count}</td>
-                        <td className="border p-4">{product.product.price}</td>
-                    </tr>
-                </>
-            })
-        })}
+        {/* {cart.map((UsCartData,index)=>{})} */}
+        {/* <td className="border p-2">{product.product.title}</td> */}
     </tbody>
   </table>
 

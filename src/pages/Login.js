@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import { login } from "../features/auth/authServices";
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 
 let schema = yup.object().shape({

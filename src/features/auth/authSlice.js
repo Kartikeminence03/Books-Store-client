@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authServices";
 
+import { 
+  addToCart,
+  login,
+  register
+} from "./authServices";
+
 const getUserfromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : null;
@@ -11,44 +17,13 @@ const initialState = {
   isSuccess: false,
   isLoggedIn: false,
   message: "",
-  cart: []
+  cart: [],
 };
-export const login = createAsyncThunk(
-  "auth/login",
-  async (userData, thunkAPI) => {
-    try {
-      return await authService.login(userData);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
 
-export const register = createAsyncThunk(
-  "auth/register",
-  async (userData, thunkAPI) => {
-    try {
-      return await authService.register(userData);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-export const addToCart = createAsyncThunk(
-  "auth/cart",
-  async(cartData, thunkAPI) =>{
-    try {
-      return await authService.addToCart(cartData)
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error)
-    }
-  }
-)
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: initialState,
+  initialState,
   reducers: {},
   extraReducers: (buildeer) => {
     buildeer
@@ -63,24 +38,24 @@ export const authSlice = createSlice({
         state.user = action.payload;
         state.message = "success";
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state, {error}) => {
         state.isError = true;
         state.isSuccess = false;
         state.isLoggedIn= false;
-        state.message = action.error;
+        state.message = error;
         state.isLoading = false;
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, (state, {payload}) => {
         state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.user = payload;
         state.message = "success";
       })
-      .addCase(register.rejected, (state, action) => {
+      .addCase(register.rejected, (state, {error}) => {
         state.isError = true;
         state.isSuccess = false;
-        state.message = action.error;
+        state.message = error;
         state.isLoading = false;
       })
       .addCase(addToCart.pending, (state)=>{
@@ -88,11 +63,13 @@ export const authSlice = createSlice({
       })
       .addCase(addToCart.fulfilled,(state,{payload})=>{
         // console.log("-----payload------", payload);
-        state.isError = false;
+        if(payload.status){
+          state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
-        state.cart = [...state.cart, payload?.product];
+        state.cart = [...state.cart, payload?.products];
         state.message = "success";
+        }
       })
       .addCase(addToCart.rejected,(state,action)=>{
         state.isError = true;
