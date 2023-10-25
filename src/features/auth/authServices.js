@@ -4,11 +4,15 @@ import getAuthorConfig from "../../UserToken";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const login = createAsyncThunk("User_Login", async (user) => {
-  const response = await axios.post(`${base_url}user/login`, user);
+  try {
+    const response = await axios.post(`${base_url}user/login`, user);
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data;
+  } catch (error) {
+    return error
+  }
 })
 
 const register = createAsyncThunk("User_SignUp", async (user) => {

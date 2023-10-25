@@ -1,10 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import authService from "./authServices";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { 
-  addToCart,
   login,
-  register
+  register,
+  addToCart
 } from "./authServices";
 
 const getUserfromLocalStorage = localStorage.getItem("user")
@@ -12,12 +11,12 @@ const getUserfromLocalStorage = localStorage.getItem("user")
   : null;
 const initialState = {
   user: getUserfromLocalStorage,
+  cart: [],
   isError: false,
   isLoading: false,
   isSuccess: false,
   isLoggedIn: false,
   message: "",
-  cart: [],
 };
 
 
@@ -67,7 +66,8 @@ export const authSlice = createSlice({
           state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
-        state.cart = [...state.cart, payload?.products];
+        // console.log(state.cart = [...state.cart, payload?.product]);
+        state.cart = [...state.cart, payload?.product];
         state.message = "success";
         }
       })

@@ -8,11 +8,11 @@ import getAuthorConfig from "../../UserToken";
 const buyProduct = createAsyncThunk(
     
     "buy_product",
-    async () => {
+    async ({ cart, totalAmount }) => {
       try {
         const config = getAuthorConfig();
         const response = await axios.post(`${base_url}user/cart/cash-order`,
-          {UPI: true},
+        { products: cart, totalAmount },
           config
         );
         return await response.data;

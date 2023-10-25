@@ -1,42 +1,23 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { base_url } from '../utils/baseUrl';
-import getAuthorConfig from '../UserToken';
+import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {useNavigate}  from 'react-router-dom'
 import { buyProduct } from '../features/order/orderservices';
 import { toast } from 'react-toastify';
 
 const CartSection = () => {
-    const [cartData, setCartData] =  useState([]);
+    const userData = useSelector((state) => state?.auth);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const { cart } = useSelector((state) => state?.auth);
 
-    console.log(cart);
+    const totalPrice = userData?.cart.reduce((accumulator, currentItem) => {
+      // return accumulator + currentItem.price;
+    }, 0);
 
-
-    const getallCart = async()=>{
-        const config = getAuthorConfig()
-        const response = await axios.get(`${base_url}user/cart`,config)
-        const data = await response.data;
-        setCartData(data);
-    }
+    console.log(userData);
 
     const checkoutFun = ()=>{
-      dispatch(buyProduct());
-      // navigate('/order')
+      dispatch(buyProduct({ cart: userData?.cart, totalAmount: totalPrice }));
     }
 
-    if(checkoutFun===true){
-      navigate('/order')
-      toast.success("success")
-  }
-
-    useEffect(()=>{
-        getallCart()
-    },[])
 
   return (
     <div className="container mx-auto p-5">
@@ -44,15 +25,19 @@ const CartSection = () => {
     <thead>
       <tr>
         <th className="border p-2">Product Name</th>
-        <th className="border p-4">Count</th>
         <th className="border p-4">Price</th>
-        {/* <th className="border p-4">Actions</th> */}
       </tr>
     </thead>
     <tbody>
       {/* <!-- Product Row 1 --> */}
-        {/* {cart.map((UsCartData,index)=>{})} */}
-        {/* <td className="border p-2">{product.product.title}</td> */}
+        {cart.map((UsCartData,index)=>{
+          return(
+            <tr>
+              <td className="border p-2">{UsCartData.title}</td> 
+              <td className='border p-2'>{UsCartData.price}</td>
+            </tr>
+          )
+        })}
     </tbody>
   </table>
 
@@ -60,13 +45,7 @@ const CartSection = () => {
   {/* <!-- Total Price Box --> */}
   <div className="mt-4 p-2 border border-gray-300 w-1/4">
     <p className="text-lg font-semibold">Total Price:</p>
-    {cartData.map((item,index)=>{
-        return(
-            <>
-            <p className="text-xl font-bold text-green-600">₹{item.cartTotal}</p>
-            </>
-        )
-    })}
+    <p className="text-xl font-bold text-green-600">₹{totalPrice}</p>
     {/* <!-- Button --> */}
     <button className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
     onClick={checkoutFun}
