@@ -44,7 +44,7 @@ const CartSection = () => {
         description: "Test Transaction",
         image: "https://eminencetechnology.com/wp-content/uploads/2022/12/logo_f.png",
         order_id: order.id,
-        callback_url: "http://localhost:5000/api/payment/paymentVerification", config,
+        callback_url: `${base_url}payment/paymentVerification`, config,
         prefill: {
             name: `${usData.firstname} ${usData.lastname}`,
             email: usData.email,
