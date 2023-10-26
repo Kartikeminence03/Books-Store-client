@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { buyProduct } from '../features/order/orderservices';
 import { toast } from 'react-toastify';
+import axios from 'axios';
+import { base_url } from '../utils/baseUrl';
+import getAuthorConfig from '../UserToken';
 
 const CartSection = () => {
     const [productDatat, setProductData] = useState([])
     const userData = useSelector((state) => state?.auth);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { cart } = useSelector((state) => state?.auth);
     const product = JSON.parse(localStorage.getItem("product")) || "";
+
+    const usData = userData?.user;
 
     useEffect(()=>{
       setProductData(product)
@@ -18,11 +23,48 @@ const CartSection = () => {
       return accumulator + currentItem.price;
     }, 0):"0";
 
-    console.log(productDatat);
 
-    const checkoutFun = ()=>{
-      dispatch(buyProduct({ cart: userData?.cart, totalAmount: totalPrice }));
+
+    const checkoutFun = async()=>{
+      const config = getAuthorConfig();
+      // dispatch(buyProduct({ cart: userData?.cart, totalAmount: totalPrice }));
+
+      const {data:{key}} = await axios.get(`${base_url}getkey`)
+
+
+      const {data:{order}} = await axios.post(`${base_url}payment/payment-checkout`,{
+        amount: 8000
+      }, config)
+
+      const options = {
+        key, 
+        amount: order.amount, 
+        currency: "INR",
+        name: "ET BS",
+        description: "Test Transaction",
+        image: "https://eminencetechnology.com/wp-content/uploads/2022/12/logo_f.png",
+        order_id: order.id,
+        callback_url: "http://localhost:5000/api/payment/paymentVerification", config,
+        prefill: {
+            name: `${usData.firstname} ${usData.lastname}`,
+            email: usData.email,
+            contact: usData.mobile
+        },
+        notes: {
+            "address": "Razorpay Corporate Office"
+        },
+        theme: {
+            "color": "#ff2508"
+        }
+    };
+    const razor = new window.Razorpay(options);
+    razor.open();
+
+
     }
+
+
+
 
 
   return (
