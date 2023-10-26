@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { buyProduct } from '../features/order/orderservices';
 import { toast } from 'react-toastify';
 
 const CartSection = () => {
+    const [productDatat, setProductData] = useState([])
     const userData = useSelector((state) => state?.auth);
     const dispatch = useDispatch();
     const { cart } = useSelector((state) => state?.auth);
+    const product = JSON.parse(localStorage.getItem("product")) || "";
 
-    const totalPrice = userData?.cart.reduce((accumulator, currentItem) => {
-      // return accumulator + currentItem.price;
-    }, 0);
+    useEffect(()=>{
+      setProductData(product)
+    },[])
 
-    console.log(userData);
+    const totalPrice = productDatat===true?productDatat.reduce((accumulator, currentItem) => {
+      return accumulator + currentItem.price;
+    }, 0):"0";
+
+    console.log(productDatat);
 
     const checkoutFun = ()=>{
       dispatch(buyProduct({ cart: userData?.cart, totalAmount: totalPrice }));
@@ -30,14 +36,14 @@ const CartSection = () => {
     </thead>
     <tbody>
       {/* <!-- Product Row 1 --> */}
-        {cart.map((UsCartData,index)=>{
+        {productDatat===true?productDatat.map((UsCartData,index)=>{
           return(
-            <tr>
+            <tr key={index}>
               <td className="border p-2">{UsCartData.title}</td> 
               <td className='border p-2'>{UsCartData.price}</td>
             </tr>
           )
-        })}
+        }):""}
     </tbody>
   </table>
 

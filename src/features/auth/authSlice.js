@@ -66,8 +66,9 @@ export const authSlice = createSlice({
           state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
-        // console.log(state.cart = [...state.cart, payload?.product]);
         state.cart = [...state.cart, payload?.product];
+        localStorage.setItem("product", JSON.stringify(state.cart, payload?.product))
+        // console.log(state.cart);
         state.message = "success";
         }
       })
