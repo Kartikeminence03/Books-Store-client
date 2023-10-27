@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { buyProduct } from '../features/order/orderservices';
+import { buyProduct, createPayment } from '../features/order/orderservices';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { base_url } from '../utils/baseUrl';
@@ -9,11 +9,14 @@ import getAuthorConfig from '../UserToken';
 const CartSection = () => {
     const [productDatat, setProductData] = useState([])
     const userData = useSelector((state) => state?.auth);
-    // const dispatch = useDispatch();
-    const { cart } = useSelector((state) => state?.auth);
+    const dispatch = useDispatch();
+    // const { cart } = useSelector((state) => state?.auth);
+    const orderData = useSelector((state) => state?.orders);
     const product = JSON.parse(localStorage.getItem("product")) || "";
 
     const usData = userData?.user;
+
+    // console.log(userData);
 
     useEffect(()=>{
       setProductData(product)
@@ -27,7 +30,7 @@ const CartSection = () => {
 
     const checkoutFun = async()=>{
       const config = getAuthorConfig();
-      // dispatch(buyProduct({ cart: userData?.cart, totalAmount: totalPrice }));
+      dispatch(buyProduct({ cart: userData?.cart, totalAmount: totalPrice }));
 
       const {data:{key}} = await axios.get(`${base_url}getkey`)
 
@@ -43,8 +46,24 @@ const CartSection = () => {
         name: "ET BS",
         description: "Test Transaction",
         image: "https://eminencetechnology.com/wp-content/uploads/2022/12/logo_f.png",
-        order_id: order.id,
-        callback_url: `${base_url}payment/paymentVerification`, config,
+        order_id: orderData?.orderObject?.id,
+        handler: async(response)=>{
+          const {
+            razorpay_order_id, 
+            razorpay_payment_id, 
+            razorpay_signature
+          } = response;
+
+          dispatch(
+            createPayment({
+              order_id: localStorage.getItem("orderId"),
+              razorpay_order_id,
+              razorpay_payment_id,
+              razorpay_signature,
+              order_status: "success",
+            })
+          )
+        },
         prefill: {
             name: `${usData.firstname} ${usData.lastname}`,
             email: usData.email,
