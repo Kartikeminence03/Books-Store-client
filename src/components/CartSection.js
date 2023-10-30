@@ -5,19 +5,16 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { base_url } from '../utils/baseUrl';
 import getAuthorConfig from '../UserToken';
+import { useNavigate } from 'react-router-dom';
 
 const CartSection = () => {
     const [productDatat, setProductData] = useState([])
+    const navigate = useNavigate();
     const userData = useSelector((state) => state?.auth);
     const dispatch = useDispatch();
-    // const { cart } = useSelector((state) => state?.auth);
     const orderData = useSelector((state) => state?.orders);
     const product = JSON.parse(localStorage.getItem("product")) || "";
-
     const usData = userData?.user;
-
-    console.log(userData);
-    // console.log(productDatat);
 
     useEffect(()=>{
       setProductData(product)
@@ -54,7 +51,6 @@ const CartSection = () => {
             razorpay_payment_id, 
             razorpay_signature
           } = await response;
-
           console.log(razorpay_order_id,"=====<<<<<<<<....>>>>>>>>>>");
           dispatch(
             createPayment({
@@ -65,6 +61,9 @@ const CartSection = () => {
               order_status: "success",
             })
           )
+          navigate("/order")
+          toast.success("Payment Successfuly")
+
         },
         prefill: {
             name: `${usData.firstname} ${usData.lastname}`,
