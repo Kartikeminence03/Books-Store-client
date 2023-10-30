@@ -24,6 +24,9 @@ const CartSection = () => {
       return accumulator + currentItem.price;
     }, 0):"0";
 
+    const loaclStorageProductDelete = ()=>localStorage.removeItem("product")
+    const loaclStorageOderID_Delete = ()=>localStorage.removeItem("orderId")
+
 
 
     const checkoutFun = async()=>{
@@ -62,6 +65,8 @@ const CartSection = () => {
             })
           )
           navigate("/order")
+          loaclStorageProductDelete()
+          loaclStorageOderID_Delete()
           toast.success("Payment Successfuly")
 
         },
