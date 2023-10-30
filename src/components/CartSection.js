@@ -17,12 +17,13 @@ const CartSection = () => {
     const usData = userData?.user;
 
     // console.log(userData);
+    // console.log(productDatat);
 
     useEffect(()=>{
       setProductData(product)
     },[])
 
-    const totalPrice = productDatat===true?productDatat.reduce((accumulator, currentItem) => {
+    const totalPrice = !productDatat===false?productDatat.reduce((accumulator, currentItem) => {
       return accumulator + currentItem.price;
     }, 0):"0";
 
@@ -30,18 +31,18 @@ const CartSection = () => {
 
     const checkoutFun = async()=>{
       const config = getAuthorConfig();
-      dispatch(buyProduct({ cart: userData?.cart, totalAmount: totalPrice }));
+      dispatch(buyProduct({ cart: productDatat, totalAmount: totalPrice }));
 
       const {data:{key}} = await axios.get(`${base_url}getkey`)
 
 
-      const {data:{order}} = await axios.post(`${base_url}payment/payment-checkout`,{
-        amount: 8000
-      }, config)
+      // const {data:{order}} = await axios.post(`${base_url}payment/payment-checkout`,{
+      //   amount: 8000
+      // }, config)
 
       const options = {
         key, 
-        amount: order.amount, 
+        amount: 8000, 
         currency: "INR",
         name: "ET BS",
         description: "Test Transaction",
@@ -52,8 +53,9 @@ const CartSection = () => {
             razorpay_order_id, 
             razorpay_payment_id, 
             razorpay_signature
-          } = response;
+          } = await response;
 
+          console.log(razorpay_order_id,"=====<<<<<<<<....>>>>>>>>>>");
           dispatch(
             createPayment({
               order_id: localStorage.getItem("orderId"),
@@ -83,9 +85,6 @@ const CartSection = () => {
     }
 
 
-
-
-
   return (
     <div className="container mx-auto p-5">
   <table className="min-w-full table-auto border border-gray-300">
@@ -97,7 +96,8 @@ const CartSection = () => {
     </thead>
     <tbody>
       {/* <!-- Product Row 1 --> */}
-        {productDatat===true?productDatat.map((UsCartData,index)=>{
+        {!productDatat===false?productDatat.map((UsCartData,index)=>{
+          console.log(productDatat,"=========...>>>>");
           return(
             <tr key={index}>
               <td className="border p-2">{UsCartData.title}</td> 
