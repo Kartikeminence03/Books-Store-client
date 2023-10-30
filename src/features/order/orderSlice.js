@@ -19,12 +19,13 @@ const order = createSlice({
             state.error = "";
         })
         .addCase(buyProduct.fulfilled, (state, { payload }) => {
-            console.log(state.orderObject);
+            console.log(payload?.newOrder?._id,"++++++++===+++++++");
             if (payload.status) {
               state.orderSuccess = true;
               localStorage.setItem("orderId", payload?.newOrder?._id);
               state.orderObject = payload.orderResponse;
-            // state.orders = [...payload?.order?.product]
+            // console.log(...payload?.order?.products);
+            // state.orders = [...payload?.order?.products]
             }
         })
         .addCase(buyProduct.rejected, (state, { error }) => {

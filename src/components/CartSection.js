@@ -16,7 +16,7 @@ const CartSection = () => {
 
     const usData = userData?.user;
 
-    // console.log(userData);
+    console.log(userData);
     // console.log(productDatat);
 
     useEffect(()=>{
@@ -41,8 +41,8 @@ const CartSection = () => {
       // }, config)
 
       const options = {
-        key, 
-        amount: 8000, 
+        key:"rzp_test_ciiP0etOpKCyQo", 
+        amount: 800000, 
         currency: "INR",
         name: "ET BS",
         description: "Test Transaction",
@@ -81,7 +81,6 @@ const CartSection = () => {
     const razor = new window.Razorpay(options);
     razor.open();
 
-
     }
 
 
@@ -97,7 +96,7 @@ const CartSection = () => {
     <tbody>
       {/* <!-- Product Row 1 --> */}
         {!productDatat===false?productDatat.map((UsCartData,index)=>{
-          console.log(productDatat,"=========...>>>>");
+          // console.log(productDatat,"=========...>>>>");
           return(
             <tr key={index}>
               <td className="border p-2">{UsCartData.title}</td> 

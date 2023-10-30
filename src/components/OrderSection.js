@@ -9,10 +9,10 @@ const OrderSection = () => {
 
     const getAllUserOrder = async()=>{
         const config = getAuthorConfig()
-        const response = await axios.get(`${base_url}user/getallorders`, config);
+        const response = await axios.get(`${base_url}order/us-order`, config);
         const orderData = await response.data;
-        setUserOrder(orderData)
-        console.log(orderData);
+        const ordersde = await orderData.orders;
+        setUserOrder(ordersde)
     }
 
     useEffect(()=>{
@@ -23,10 +23,9 @@ const OrderSection = () => {
   <table className="min-w-full table-auto border border-gray-300">
     <thead>
       <tr>
-        <th className="border p-2">Product Name</th>
-        <th className="border p-4">Price</th>
-        <th className="border p-4">Data</th>
-        {/* <th className="border p-4">Actions</th> */}
+        <th className="border p-2">Total Amount</th>
+        <th className="border p-4">Date</th>
+        <th className="border p-4">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -35,15 +34,11 @@ const OrderSection = () => {
             const date = new Date(order.createdAt)
             const formatedDate = format(date, "MM/dd/yyyy");
             return <>
-                {order.products.map((product,  index) => {
-                return <>
-                    <tr key={index}>
-                        <td className="border p-2">{product.product.title}</td>
-                        <td className="border p-4">{product.product.price}</td>
-                        <td className="border p-4">{formatedDate}</td>
-                    </tr>
-                </>
-            })}
+              <tr key={index}>
+                <td className="border p-4">{order.totalAmount}</td>
+                <td className="border p-4">{formatedDate}</td>
+                <td className="border p-4">{order.orderStatus}</td>
+              </tr>
             </>
         })}
     </tbody>
