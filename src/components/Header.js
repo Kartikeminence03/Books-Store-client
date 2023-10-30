@@ -8,6 +8,12 @@ import ShowOnLogin from "./hiddenLink/hiddenLink";
 const Header = () => {
   const [dropdownButton, setDropdownButton] = useState(false);
   const navigate = useNavigate();
+
+  const logout = ()=>{
+    localStorage.clear()
+    navigate('/login')
+  };
+
   return (
     <div className="navbar bg-red-500 p-4">
   <div className="logo text-white text-2xl font-bold">ET BS</div>
@@ -37,7 +43,7 @@ const Header = () => {
           style={{ zIndex: 100 }}>
             <ul>
               <li>
-                <button className="text-black">Logout</button>
+                <button className="text-black" onClick={()=>logout()}>Logout</button>
                 <button className="text-black" onClick={()=>navigate('/order')}>Order</button>
               </li>
             </ul>

@@ -3,6 +3,7 @@ import {BsFillCartPlusFill, BsCartCheckFill} from 'react-icons/bs'
 import './BookCard.css'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../features/auth/authServices'
+import { toast } from 'react-toastify';
 
 const BookCard = ({data}) => {
   const [addToCartIcon, setAddToCartIcon] = useState(false)
@@ -10,6 +11,7 @@ const BookCard = ({data}) => {
 
   async function handleAddCart (data) {
     await dispatch(addToCart(data._id));
+    toast.success("Add To Cart")
     // console.log(typeof(data._id));
     // setAddToCartIcon(!addToCartIcon)
   };
@@ -18,11 +20,11 @@ const BookCard = ({data}) => {
       <div key={data._id}>
         <div className="flex items-center justify-between">
       <h1 className="text-2xl font-semibold text-gray-800">{data.title}</h1>
-      {addToCartIcon === true ? (
+      {/* {addToCartIcon === true ? (
         <BsCartCheckFill className="text-green-400 text-2xl" />
       ) : (
         <BsFillCartPlusFill className="text-gray-500 text-2xl" />
-      )}
+      )} */}
     </div>
     
       <p className="text-gray-600 mt-4">{data.description}</p>

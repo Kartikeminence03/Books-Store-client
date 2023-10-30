@@ -75,12 +75,12 @@ const Login = () => {
           onBlur={formik.handleBlur("password")}
           value={formik.values.password}
         />
-        <button
+        <i
           className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-600"
           onClick={() => setVisible(!visible)}
         >
           {visible ? <BsEye size={25} /> : <BsEyeSlash size={25} />}
-        </button>
+        </i>
       </div>
       {formik.touched.password && formik.errors.password && (
         <div className="error text-red-500">{formik.errors.password}</div>
