@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // const data = localStorage.getItem('user')
@@ -6,20 +7,25 @@ import { useNavigate } from 'react-router-dom'
 const ShowOnLogin = ({children}) => {
     // console.log(data,"==========............>>>>>>>>>>");
     const data = localStorage.getItem('user')
-    if(data){
-        return children
-    }
-    return null
+    // useEffect(()=>{
+        if(data){
+            return children
+        }
+        return null
+    // },[])
 }
 
 export const ShowOnLogout = ({children}) => {
     const data = localStorage.getItem('user')
     // const navigate = useNavigate();
-    if(!data){
-        // navigate('')
-        return null
-    }
-    return children
+
+    useEffect(()=>{
+        if(!data){
+            // navigate('')
+            return null
+        }
+        return children
+    },[])
 }
 
 export default ShowOnLogin
