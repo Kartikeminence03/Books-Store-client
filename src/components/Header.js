@@ -14,6 +14,10 @@ const Header = () => {
     navigate('/login')
   };
 
+  // useEffect(()=>{
+  //   return ()=>logout()
+  // },[logout])
+
   return (
     <div className="navbar bg-red-500 p-4">
   <div className="logo text-white text-2xl font-bold">ET BS</div>

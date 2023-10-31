@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 
+// const data = localStorage.getItem('user')
+
+
 const ShowOnLogin = ({children}) => {
-
-    const data = localStorage.getItem('user')
     // console.log(data,"==========............>>>>>>>>>>");
-
+    const data = localStorage.getItem('user')
     if(data){
         return children
     }
@@ -12,15 +13,13 @@ const ShowOnLogin = ({children}) => {
 }
 
 export const ShowOnLogout = ({children}) => {
-    const navigate = useNavigate();
-
     const data = localStorage.getItem('user')
-
+    // const navigate = useNavigate();
     if(!data){
-        navigate('')
-        return children
+        // navigate('')
+        return null
     }
-    return null
+    return children
 }
 
 export default ShowOnLogin
